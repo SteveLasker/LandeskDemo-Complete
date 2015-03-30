@@ -1,0 +1,75 @@
+﻿@model LandeskUMP.Models.Salesforce.Contact
+@{
+    ViewBag.Title = "View";
+}
+<h2>View</h2>
+<div>
+    <h4>Contact</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Salutation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Salutation)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MailingStreet)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MailingStreet)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MailingCity)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MailingCity)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MailingState)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MailingState)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MailingPostalCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MailingPostalCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MailingCountry)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MailingCountry)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
