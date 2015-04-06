@@ -135,9 +135,9 @@ namespace LandeskUMP.Models.Salesforce
         [JsonProperty("Severity__c")]
         public string Severity { get; set; }
 
-        [Display(Name = "ClearQuestID")]
-        [JsonProperty("ClearQuestID__c")]
-        public double? ClearQuestID { get; set; }
+        [Display(Name = "VSOnline Id")]
+        [JsonProperty("VSOnlineId__c")]
+        public double? VSOnlineId { get; set; }
 
         [Display(Name = "Product_Line")]
         [StringLength(50)]
@@ -148,6 +148,8 @@ namespace LandeskUMP.Models.Salesforce
         [StringLength(30)]
         [JsonProperty("Category__c")]
         public string Category { get; set; }
+
+        public Account Account { get; set; }
 
     }
 }

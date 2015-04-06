@@ -8,8 +8,13 @@ namespace LandeskUMP.Models.VSOnline
 {
     public class WorkItem
     {
+        public WorkItem()
+        {
+            this.Cases = new List<Salesforce.Case>();
+        }
+
         [JsonProperty("System.Id")]
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [JsonProperty("System.Title")]
         public string Title { get; set; }
@@ -54,5 +59,7 @@ namespace LandeskUMP.Models.VSOnline
 
         [JsonProperty("Microsoft.VSTS.Common.Severity")]
         public string Severity { get; set; }
+
+        public List<Salesforce.Case> Cases { get; set; }
     }
 }

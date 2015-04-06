@@ -227,10 +227,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Business\UmpCalculator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ContactsController.cs" />
+    <Compile Include="Controllers\UmpController.cs" />
     <Compile Include="Controllers\UserProfileController.cs" />
     <Compile Include="Controllers\VSOController.cs" />
     <Compile Include="Global.asax.cs">
@@ -243,8 +245,16 @@
       <ConnectedServiceReference>Salesforce Connected App</ConnectedServiceReference>
     </Compile>
     <Compile Include="Models\Salesforce\Contact.cs" />
+    <Compile Include="Models\UmpItem.cs" />
+    <Compile Include="Models\UmpScoreResult.cs" />
     <Compile Include="Models\VSOnline\WorkItem.cs" />
+    <Compile Include="Models\WorkItemState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\Salesforce\Queries.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Queries.resx</DependentUpon>
+    </Compile>
     <Compile Include="Service References\Salesforce\SalesforceOAuthRedirectHandler.cs" />
     <Compile Include="Service References\Salesforce\SalesforceService.cs" />
     <Compile Include="Service References\LandeskVSO\TFSWorkItemStoreConnector.cs">
@@ -305,6 +315,7 @@
     <Content Include="Service References\LandeskVSO\ConnectedService.json">
       <ConnectedServiceReference>VSOnline</ConnectedServiceReference>
     </Content>
+    <Content Include="Views\Ump\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -321,6 +332,12 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Service References\Salesforce\Queries.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Queries.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
