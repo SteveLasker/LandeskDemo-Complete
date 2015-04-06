@@ -153,6 +153,7 @@ namespace LandeskUMP.LandeskVSO
         {
             // Build the REST API
             // cleanup any trailing / in the configured URL
+            
             string configUrl = GetConfigValue("LandeskVSO:Endpoint");
             if (configUrl.Substring(configUrl.Length - 1, 1) == "/")
             {

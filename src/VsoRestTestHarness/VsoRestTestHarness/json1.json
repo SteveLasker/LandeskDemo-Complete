@@ -1,0 +1,24 @@
+﻿{
+    "count": 2,
+    "value": [
+        {
+            "id": 1,
+            "rev": 2,
+            "fields": { "System.AreaPath": "SSM", "System.TeamProject": "SSM", "System.IterationPath": "SSM", "System.WorkItemType": "Bug", "System.State": "New", "System.Reason": "New defect reported", "System.CreatedDate": "2015-01-27T20:43:32.93Z", "System.CreatedBy": "Steve Lasker <landeskmsref@outlook.com>", "System.ChangedDate": "2015-01-28T04:55:45.31Z", "System.ChangedBy": "Steve Lasker <landeskmsref@outlook.com>", "System.Title": "iOS Updates Failing", "Microsoft.VSTS.Scheduling.Effort": 2.0, "Microsoft.VSTS.Common.Severity": "2 - High", "WEF_22EDF3139C4D4BEA97B7737D194C656D_Kanban.Column": "New", "Microsoft.VSTS.TCM.ReproSteps": "Updates to all iOS 3.x devices are no longer working" },
+            "url": "https://landeskmsref.visualstudio.com/DefaultCollection/_apis/wit/workItems/1"
+        },
+        {
+            "id": 2,
+            "rev": 1,
+            "fields": {
+                "
+                    
+                    
+                    
+                "WEF_22EDF3139C4D4BEA97B7737D194C656D_Kanban.Column": "New",
+                "WEF_22EDF3139C4D4BEA97B7737D194C656D_Kanban.Column.Done": false
+            },
+            "url": "https://landeskmsref.visualstudio.com/DefaultCollection/_apis/wit/workItems/2"
+        }
+    ]
+}

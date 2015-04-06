@@ -245,9 +245,11 @@
     <Compile Include="Models\Salesforce\Contact.cs" />
     <Compile Include="Models\VSOnline\WorkItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service References\LandeskVSO\VSOnlineService.cs" />
     <Compile Include="Service References\Salesforce\SalesforceOAuthRedirectHandler.cs" />
     <Compile Include="Service References\Salesforce\SalesforceService.cs" />
+    <Compile Include="Service References\LandeskVSO\TFSWorkItemStoreConnector.cs">
+      <ConnectedServiceReference>VSOnline</ConnectedServiceReference>
+    </Compile>
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -299,10 +301,10 @@
     <Content Include="Views\Contacts\Delete.cshtml" />
     <Content Include="Views\Contacts\Create.cshtml" />
     <Content Include="Views\Case\Index.cshtml" />
-    <Content Include="Service References\LandeskVSO\ConnectedService.json">
-      <ConnectedServiceReference>LandeskVSO</ConnectedServiceReference>
-    </Content>
     <Content Include="Views\VSO\Index.cshtml" />
+    <Content Include="Service References\LandeskVSO\ConnectedService.json">
+      <ConnectedServiceReference>VSOnline</ConnectedServiceReference>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
