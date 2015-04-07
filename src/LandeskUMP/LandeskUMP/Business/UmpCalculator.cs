@@ -36,7 +36,7 @@ namespace LandeskUMP.Business
                                           + " Product_Line__c, Category__c, Status, AccountId, Account.Name, "
                                           + " Account.SAP_Customer_Number__c, Account.Total_Entitlement_Points__c "
                                 + "    FROM Case "
-                                + " WHERE Product_Line__c LIKE 'Systems Lifecycle%' ";
+                                + " WHERE Status <>'Closed' ";
             //+ "      AND LastModifiedDate > <% lastUpdate %>";
 
             sfCases = await Salesforce.SalesforceService.MakeAuthenticatedClientRequestAsync(
@@ -95,7 +95,8 @@ namespace LandeskUMP.Business
                 from u in vsoBugs
                 where (u.Cases.Count > 0)
                 select new Models.UmpScoreResult(u, GetUmpScore(u));
-            return umpResults;
+                
+            return umpResults.OrderByDescending(ump => ump.TotalUmp);
         }
 
         /// <summary>
