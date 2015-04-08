@@ -20,6 +20,7 @@ namespace LandeskUMP.Models
             this.CreatedDate = workItem.CreatedDate;
             this.TotalUmp = umpScore;
             this.Cases = workItem.Cases;
+            this.State= workItem.State;
         }
         public int Id { get; set; }
         public string Title { get; set; }
@@ -29,6 +30,7 @@ namespace LandeskUMP.Models
         public string DevTeam { get; set; }
         public DateTime CreatedDate { get; set; }
         public int TotalUmp { get; set; }
+        public int Priority { get; set; }
         public List<Models.Salesforce.Case> Cases { get; set; }
     }
 }

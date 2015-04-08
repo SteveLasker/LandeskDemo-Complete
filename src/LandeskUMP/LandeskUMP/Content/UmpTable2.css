@@ -1,0 +1,27 @@
+﻿@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,500,600,700);
+
+body {
+  padding-bottom:25px;
+  font-family:'Source Sans Pro',Verdana, Geneva, Tahoma, sans-serif
+}
+
+.progress-bar
+{
+  color:black;
+  font-weight:bold;
+  text-align:left;
+  padding-left:5px;
+  /*background-color:thistle;*/
+}
+
+.progress
+{
+  margin-bottom:0;
+}
+h3.navbar-text
+{
+  padding-left:50px;
+}
+.navbar-static-top{
+  border-bottom-width:0;
+}

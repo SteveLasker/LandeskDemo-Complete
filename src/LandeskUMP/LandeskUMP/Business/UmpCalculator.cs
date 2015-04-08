@@ -1,5 +1,7 @@
 ﻿using LandeskUMP.Models;
+using LandeskUMP.Salesforce;
 using Salesforce.Common.Models;
+using Salesforce.Force;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -38,17 +40,9 @@ namespace LandeskUMP.Business
                                 + "    FROM Case "
                                 + " WHERE Status <>'Closed' ";
             //+ "      AND LastModifiedDate > <% lastUpdate %>";
-
-            sfCases = await Salesforce.SalesforceService.MakeAuthenticatedClientRequestAsync(
-                async (client) =>
-                {
-                    QueryResult<Models.Salesforce.Case> cases =
-                        await client.QueryAsync<Models.Salesforce.Case>(sfQuery);
-
-                    int count = cases.records.Count;
-                    return cases.records;
-                }
-                );
+            ForceClient client = await SalesforceService.GetUserNamePasswordForceClientAsync();
+            var result= await client.QueryAsync<Models.Salesforce.Case>(sfQuery);
+            sfCases = result.records;
 
             // Connect cases to defects:
             // For each WorkItem, get a collection of Salesforce Cases
