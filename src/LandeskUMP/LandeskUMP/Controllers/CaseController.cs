@@ -11,6 +11,7 @@ using LandeskUMP.Salesforce;
 
 namespace LandeskUMP.Controllers
 {
+	[Authorize]
     public class CaseController : Controller
     {
         // Note: the SOQL Field list, and Binding Property list have subtle differences as custom properties may be mapped with the JsonProperty attribute to remove __c

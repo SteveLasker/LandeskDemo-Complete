@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace LandeskUMP.Controllers
 {
+	[Authorize]
     public class VSOController : Controller
     {
         // GET: VSO
