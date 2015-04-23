@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace LandeskUMP.Controllers
 {
+	[Authorize]
     public class UmpController : Controller
     {
         // GET: Ump
