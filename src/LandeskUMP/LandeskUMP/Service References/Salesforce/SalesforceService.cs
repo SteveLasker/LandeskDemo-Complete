@@ -45,6 +45,24 @@ namespace LandeskUMP.Salesforce
 
         private static string TokenCacheKey = "SalesforceToken";
 
+        public static async Task<T> MakeAuthenticatedWebAPIClientRequestAsync<T>(Func<ForceClient, Task<T>> request)
+        {
+            TokenCache cache = new TokenCache(SalesforceService.TokenCacheKey);
+            // 1. Get the token from the cache
+            SalesforceToken salesforceToken = cache.GetFromCache(HttpContext.Current.User);
+
+            // 2. If no token is available, throw
+            if (salesforceToken == null)
+            {
+                throw new InvalidOperationException("MissingAccessToken");
+            }
+
+            // Initialize the ForceClient
+            ForceClient forceClient = salesforceToken.GetForceClient();
+
+            return await request(forceClient);
+        }
+
         /// <summary>
         /// Makes a request to the Salesforce client, wrapping the specified logic with the code necessary to handle authentication.
         /// </summary>
@@ -60,8 +78,9 @@ namespace LandeskUMP.Salesforce
 
             do
             {
+                TokenCache cache = new TokenCache(SalesforceService.TokenCacheKey);
                 // 1. Get the token from the cache
-                SalesforceToken salesforceToken = HttpContext.Current.Session[SalesforceService.TokenCacheKey] as SalesforceToken;
+                SalesforceToken salesforceToken = cache.GetFromCache(HttpContext.Current.User);
 
                 // 2. If no token is available, redirect to authorize
                 if (salesforceToken == null)
@@ -127,8 +146,9 @@ namespace LandeskUMP.Salesforce
 
                 SalesforceToken salesforceToken = new SalesforceToken(authenticationClient);
 
+                TokenCache cache = new TokenCache(SalesforceService.TokenCacheKey);
                 // Add the new token to the cache
-                HttpContext.Current.Session[SalesforceService.TokenCacheKey] = salesforceToken;
+                cache.AddToCache(HttpContext.Current.User, salesforceToken);
             }
         }
 
@@ -139,8 +159,9 @@ namespace LandeskUMP.Salesforce
         /// <returns>The asynchronous task.</returns>
         private static async Task AcquireAccessTokenFromRefreshTokenAsync(SalesforceToken salesforceToken)
         {
+            TokenCache cache = new TokenCache(SalesforceService.TokenCacheKey);
             // Remove the old token from the cache
-            HttpContext.Current.Session[SalesforceService.TokenCacheKey] = null;
+            cache.RemoveFromCache(HttpContext.Current.User);
 
             try
             {
@@ -156,7 +177,7 @@ namespace LandeskUMP.Salesforce
                     salesforceToken = new SalesforceToken(authenticationClient);
 
                     // Add the new token to the cache
-                    HttpContext.Current.Session[SalesforceService.TokenCacheKey] = salesforceToken;
+                    cache.AddToCache(HttpContext.Current.User, salesforceToken);
                 }
             }
             catch (ForceException e)
@@ -198,7 +219,7 @@ namespace LandeskUMP.Salesforce
         /// <summary>
         /// Represents a Salesforce authentication token.
         /// </summary>
-        private class SalesforceToken
+        public class SalesforceToken
         {
             /// <summary>
             /// Gets or sets the access token that can be used to make authenticated Salesforce service requests.
@@ -220,6 +241,13 @@ namespace LandeskUMP.Salesforce
             /// </summary>
             public string ApiVersion { get; set; }
 
+            public SalesforceToken(string accessToken, string refreshToken, string instanceUrl, string apiVersion)
+            {
+                this.AccessToken = accessToken;
+                this.RefreshToken = refreshToken;
+                this.InstanceUrl = instanceUrl;
+                this.ApiVersion = apiVersion;
+            }
             /// <summary>
             /// Initializes a Salesforce token using an existing AuthenticationClient.
             /// </summary>

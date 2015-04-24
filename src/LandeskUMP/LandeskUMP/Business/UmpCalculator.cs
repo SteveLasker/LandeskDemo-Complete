@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+
 namespace LandeskUMP.Business
 {
     /// <summary>
@@ -33,16 +34,31 @@ namespace LandeskUMP.Business
             // Get the open cases from Salesforce
             List<Models.Salesforce.Case> sfCases = new List<Models.Salesforce.Case>();
 
-            // Salesforce Query of Cases
-            string sfQuery = "SELECT Id, CaseNumber, Severity__c, VSOnlineId__c, CreatedDate, ClosedDate, "
-                                          + " Product_Line__c, Category__c, Status, AccountId, Account.Name, "
-                                          + " Account.SAP_Customer_Number__c, Account.Total_Entitlement_Points__c "
-                                + "    FROM Case "
-                                + " WHERE Status <>'Closed' ";
-            //+ "      AND LastModifiedDate > <% lastUpdate %>";
-            ForceClient client = await SalesforceService.GetUserNamePasswordForceClientAsync();
-            var result= await client.QueryAsync<Models.Salesforce.Case>(sfQuery);
-            sfCases = result.records;
+            //// Salesforce Query of Cases
+            //string sfQuery = "SELECT Id, CaseNumber, Severity__c, VSOnlineId__c, CreatedDate, ClosedDate, "
+            //                              + " Product_Line__c, Category__c, Status, AccountId, Account.Name, "
+            //                              + " Account.SAP_Customer_Number__c, Account.Total_Entitlement_Points__c "
+            //                    + "    FROM Case "
+            //                    + " WHERE Status <>'Closed' ";
+            ////+ "      AND LastModifiedDate > <% lastUpdate %>";
+            //ForceClient client = await SalesforceService.GetUserNamePasswordForceClientAsync();
+            //var result= await client.QueryAsync<Models.Salesforce.Case>(sfQuery);
+            //sfCases = result.records;
+
+            sfCases = await SalesforceService.MakeAuthenticatedWebAPIClientRequestAsync(
+                async (client) =>
+                {
+                    // Salesforce Query of Cases
+                    string sfQuery = "SELECT Id, CaseNumber, Severity__c, VSOnlineId__c, CreatedDate, ClosedDate, "
+                                                  + " Product_Line__c, Category__c, Status, AccountId, Account.Name, "
+                                                  + " Account.SAP_Customer_Number__c, Account.Total_Entitlement_Points__c "
+                                        + "    FROM Case "
+                                        + " WHERE Status <>'Closed' ";
+                    //+ "      AND LastModifiedDate > <% lastUpdate %>";
+                    var result = await client.QueryAsync<Models.Salesforce.Case>(sfQuery);
+                    sfCases = result.records;
+                    return sfCases;
+                });
 
             // Connect cases to defects:
             // For each WorkItem, get a collection of Salesforce Cases

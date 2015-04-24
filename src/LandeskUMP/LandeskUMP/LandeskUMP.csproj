@@ -301,6 +301,8 @@
     <Compile Include="Service References\LandeskVSO\TFSWorkItemStoreConnector.cs">
       <ConnectedServiceReference>VSOnline</ConnectedServiceReference>
     </Compile>
+    <Compile Include="Service References\Salesforce\TokenCache.cs" />
+    <Compile Include="Service References\Salesforce\TokenEncryption.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
