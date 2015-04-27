@@ -22,6 +22,7 @@ namespace LandeskUMP.Controllers
             try
             {
                 selectedContacts = await SalesforceService.MakeAuthenticatedClientRequestAsync(
+                    this.User,
                     async (client) =>
                     {
                         QueryResult<Contact> contacts =
@@ -49,6 +50,7 @@ namespace LandeskUMP.Controllers
             try
             {
                 selectedContacts = await SalesforceService.MakeAuthenticatedClientRequestAsync(
+                    this.User,
                     async (client) =>
                     {
                         QueryResult<Contact> contacts =
@@ -76,6 +78,7 @@ namespace LandeskUMP.Controllers
             try
             {
                 selectedContacts = await SalesforceService.MakeAuthenticatedClientRequestAsync(
+                    this.User,
                     async (client) =>
                     {
                         QueryResult<Contact> contacts =
@@ -105,6 +108,7 @@ namespace LandeskUMP.Controllers
             try
             {
                 success = await SalesforceService.MakeAuthenticatedClientRequestAsync(
+                    this.User,
                     async (client) =>
                     {
                         success = await client.UpdateAsync("Contact", contact.Id, contact);
@@ -142,13 +146,14 @@ namespace LandeskUMP.Controllers
             try
             {
                 selectedContacts = await SalesforceService.MakeAuthenticatedClientRequestAsync(
-                async (client) =>
-                {
-                    // Query the properties you'll display for the user to confirm they wish to delete this Contact
-                    QueryResult<Contact> contacts =
-                        await client.QueryAsync<Contact>(string.Format("SELECT Id, FirstName, LastName, MailingCity, MailingState, MailingCountry From Contact Where Id='{0}'", id));
-                    return contacts.records;
-                }
+                    this.User,
+                    async (client) =>
+                    {
+                        // Query the properties you'll display for the user to confirm they wish to delete this Contact
+                        QueryResult<Contact> contacts =
+                            await client.QueryAsync<Contact>(string.Format("SELECT Id, FirstName, LastName, MailingCity, MailingState, MailingCountry From Contact Where Id='{0}'", id));
+                        return contacts.records;
+                    }
                 );
             }
             catch (Exception e)
@@ -179,6 +184,7 @@ namespace LandeskUMP.Controllers
             try
             {
                 success = await SalesforceService.MakeAuthenticatedClientRequestAsync(
+                    this.User,
                     async (client) =>
                     {
                         success = await client.DeleteAsync("Contact", id);
@@ -219,6 +225,7 @@ namespace LandeskUMP.Controllers
             try
             {
                 id = await SalesforceService.MakeAuthenticatedClientRequestAsync(
+                    this.User,
                     async (client) =>
                     {
                         return await client.CreateAsync("Contact", contact);

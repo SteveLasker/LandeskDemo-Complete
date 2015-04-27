@@ -45,6 +45,7 @@ namespace LandeskUMP.Controllers
             try
             {
                 selectedCases = await SalesforceService.MakeAuthenticatedClientRequestAsync(
+                    this.User,
                     async (client) =>
                     {
                         QueryResult<Case> cases =

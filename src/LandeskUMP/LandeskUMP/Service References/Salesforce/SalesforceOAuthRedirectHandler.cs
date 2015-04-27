@@ -34,6 +34,7 @@ namespace LandeskUMP.Salesforce
         public override async Task ProcessRequestAsync(HttpContext context)
         {
             await SalesforceService.AcquireTokenByAuthorizationCodeAsync(
+                context.User,
                 context.Request.QueryString["code"],
                 SalesforceOAuthRedirectHandler.GetAbsoluteRedirectUri());
 
