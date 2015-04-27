@@ -53,7 +53,7 @@ namespace LandeskUMP.Salesforce
 
         public TokenCache(string cacheKey)
         {
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["landesktokencache_AzureStorageConnectionString"]);
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["landeskdemotokenstore_AzureStorageConnectionString"]);
             // Create the table client.
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
 
