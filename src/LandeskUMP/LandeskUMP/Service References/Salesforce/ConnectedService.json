@@ -1,1 +1,9 @@
-﻿{"ProviderId":"Salesforce.ForceDotCom","GettingStartedDocument":{"Uri":"http:\/\/developer.salesforce.com\/go\/VSAddinDoc"},"ExtendedData":{"ModelsHintPath":"Models\\Salesforce"}}
+﻿{
+  "ProviderId": "Salesforce.ForceDotCom",
+  "GettingStartedDocument": {
+    "Uri": "http://developer.salesforce.com/go/VSAddinDoc"
+  },
+  "ExtendedData": {
+    "ModelsHintPath": "Models\\Salesforce"
+  }
+}

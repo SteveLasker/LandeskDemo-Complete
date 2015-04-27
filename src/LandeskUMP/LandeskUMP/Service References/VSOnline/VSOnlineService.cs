@@ -9,7 +9,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Configuration;
 
-namespace LandeskUMP.LandeskVSO
+namespace LandeskUMP.VSOnline
 {
     public class VSOnlineService
     {
@@ -68,11 +68,11 @@ namespace LandeskUMP.LandeskVSO
                     request.Headers.Add("Accept", "application/json;api-version=" + this.ApiVersion);
 
                     Dictionary<string, string> body = new Dictionary<string, string>
-                    {
                         {
-                            "query", query
-                        }
-                    };
+                            {
+                                "query", query
+                            }
+                        };
 
                     request.Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
 
@@ -120,15 +120,16 @@ namespace LandeskUMP.LandeskVSO
         private HttpClient GetClient()
         {
             HttpClient client = new HttpClient();
-            string username = GetConfigValue("LandeskVSO:Username");
-            string password = GetConfigValue("LandeskVSO:Password");
+            string username = GetConfigValue("VSOnline:UserName");
+            string password = GetConfigValue("VSOnline:Password");
 
+        
             // using basic auth for Service Account Scenario
             //TODO: Add OAuth support
             client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Basic",
-                Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", username, password))));
-            return client;
+                    new AuthenticationHeaderValue("Basic",
+                    Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", username, password))));
+                return client;
         }
 
         /// <summary>
@@ -153,8 +154,7 @@ namespace LandeskUMP.LandeskVSO
         {
             // Build the REST API
             // cleanup any trailing / in the configured URL
-            
-            string configUrl = GetConfigValue("LandeskVSO:Endpoint");
+            string configUrl = GetConfigValue("VSOnline:Endpoint");
             if (configUrl.Substring(configUrl.Length - 1, 1) == "/")
             {
                 configUrl = configUrl.Substring(0, configUrl.Length - 1);

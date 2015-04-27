@@ -4,15 +4,11 @@ using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
+
 namespace LandeskUMP.Models.VSOnline
 {
     public class WorkItem
     {
-        public WorkItem()
-        {
-            this.Cases = new List<Salesforce.Case>();
-        }
-
         [JsonProperty("System.Id")]
         public int Id { get; set; }
 
@@ -20,7 +16,7 @@ namespace LandeskUMP.Models.VSOnline
         public string Title { get; set; }
 
         [JsonProperty("System.AreaPath")]
-        [Display(Name ="Area Path")]
+        [Display(Name = "Area Path")]
         public string AreaPath { get; set; }
 
         [JsonProperty("System.TeamProject")]
@@ -59,7 +55,6 @@ namespace LandeskUMP.Models.VSOnline
 
         [JsonProperty("Microsoft.VSTS.Common.Severity")]
         public string Severity { get; set; }
-
         public List<Salesforce.Case> Cases { get; set; }
     }
 }

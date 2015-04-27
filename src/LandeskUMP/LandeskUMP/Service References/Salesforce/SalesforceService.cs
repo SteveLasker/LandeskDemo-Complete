@@ -17,7 +17,6 @@ namespace LandeskUMP.Salesforce
     /// </summary>
     public static class SalesforceService
     {
-
         /// <summary>
         /// Gets a ForceClient that has been authenticated using the UserName, Password, and SecurityToken settings
         /// specified in the config file.
@@ -31,8 +30,8 @@ namespace LandeskUMP.Salesforce
                 await authenticationClient.UsernamePasswordAsync(
                     SalesforceService.GetAppSetting("Salesforce:ConsumerKey"),
                     SalesforceService.GetAppSetting("Salesforce:ConsumerSecret"),
-                    SalesforceService.GetAppSetting("Salesforce:UserName"),
-                    SalesforceService.GetAppSetting("Salesforce:Password") + SalesforceService.GetAppSetting("Salesforce:SecurityToken", true),
+                    SalesforceService.GetAppSetting("SF:UserName"),
+                    SalesforceService.GetAppSetting("SF:Password"),
                     SalesforceService.GetAppSetting("Salesforce:Domain") + "/services/oauth2/token");
 
                 return new ForceClient(
@@ -41,7 +40,6 @@ namespace LandeskUMP.Salesforce
                     authenticationClient.ApiVersion);
             }
         }
-
 
         private static string TokenCacheKey = "SalesforceToken";
 
