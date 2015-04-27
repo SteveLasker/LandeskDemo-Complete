@@ -1,4 +1,5 @@
-﻿using LandeskUMP.Models;
+﻿#region usings
+using LandeskUMP.Models;
 using LandeskUMP.Salesforce;
 using System;
 using System.Collections.Generic;
@@ -6,10 +7,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-
+#endregion
 namespace LandeskUMP.Controllers
 {
-	[Authorize]
+    [Authorize]
     public class UmpController : Controller
     {
         // GET: Ump

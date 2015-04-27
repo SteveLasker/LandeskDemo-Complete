@@ -146,8 +146,8 @@ function detailInit(e) {
         dataSource: e.data.Cases,
         scrollable: false,
         sortable: true,
-        columns: [
-            { field: "CaseNumber", title: "Case",width:"75px", template: '<a href="https://na19.salesforce.com/#=Id#" target="_blank">#=CaseNumber#</a>' },
+        columns: [ 
+            { field: "CaseNumber", title: "Case", width: "75px", template: '<a href="https://landeskdemo-dev-ed.my.salesforce.com/#=Id#" target="_blank">#=CaseNumber#</a>' },
             { field: "Severity__c", title: "Severity", width: "150px" },
             { field: "CreatedDate", title: "Open Date", width:"200px", format: "{0:MM/dd/yyyy}" },
             { field: "Status", title: "Status", width:"150px"},

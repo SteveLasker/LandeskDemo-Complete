@@ -1,5 +1,7 @@
-﻿using LandeskUMP.Models;
+﻿#region usings
+using LandeskUMP.Models;
 using LandeskUMP.Salesforce;
+using LandeskUMP.VSOnline;
 using Salesforce.Common.Models;
 using Salesforce.Force;
 using System;
@@ -8,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+#endregion
 
 namespace LandeskUMP.Business
 {
@@ -18,19 +21,18 @@ namespace LandeskUMP.Business
     {
         public async Task<IEnumerable<UmpScoreResult>> GetUmpScores()
         {
-            List<UmpScoreResult> umpScores = new List<UmpScoreResult>();
-
+            // *******************************
             // Get the open bugs from VSOnline
-            List<Models.VSOnline.WorkItem> vsoBugs;
-
-            LandeskVSO.VSOnlineService vsoService = new LandeskVSO.VSOnlineService();
+            // *******************************
+            VSOnlineService vsoService = new VSOnlineService();
             string vsoQuery = "SELECT [System.Id]"
                             + " FROM WorkItems"
                             + " WHERE [System.TeamProject] = 'SSM'"
                             + " AND  [System.WorkItemType] = 'Bug'"
                             + " ORDER BY [System.CreatedDate]";
-            vsoBugs = await vsoService.GetWorkItems<Models.VSOnline.WorkItem>(vsoQuery);
+            List<Models.VSOnline.WorkItem> vsoBugs = await vsoService.GetWorkItems<Models.VSOnline.WorkItem>(vsoQuery);
 
+            // *******************************
             // Get the open cases from Salesforce
             List<Models.Salesforce.Case> sfCases = new List<Models.Salesforce.Case>();
 
@@ -51,18 +53,10 @@ namespace LandeskUMP.Business
 
             // Connect cases to defects:
             // For each WorkItem, get a collection of Salesforce Cases
-            // Salesforce VSOnlineId = VSOnline WorkItem.ID
-
+            #region Create a graph of VSOnline WorkItem IDs, with the collection of Salesforce Cases associated with each
             // Order the two collections
             vsoBugs = vsoBugs.OrderBy(d => d.Id).ToList();
             sfCases = sfCases.OrderBy(c => c.VSOnlineId).ToList();
-
-            // Collection of unmatched cases
-            List<Models.Salesforce.Case> unmatchedCases = new List<Models.Salesforce.Case>();
-
-            int matchedCount = 0;
-
-            // Create a graph of VSOnline WorkItem IDs, with the collection of Salesforce Cases associated with each
             Dictionary<int, List<Models.Salesforce.Case>> umpItems = vsoBugs.ToDictionary(d => d.Id, d => new List<Models.Salesforce.Case>());
 
             // For each Salesforce Case, see if the associated WorkItem (VSOnlineId) is in the umpItems collection
@@ -71,13 +65,6 @@ namespace LandeskUMP.Business
                 if (umpItems.ContainsKey((int)c.VSOnlineId))
                 {
                     umpItems[(int)c.VSOnlineId].Add(c);
-                    matchedCount++;
-                }
-                else
-                {
-                    // a case without an associated WorkItem
-                    // Shouldn't happen - so capture and report on the errors
-                    unmatchedCases.Add(c);
                 }
             }
 
@@ -88,13 +75,14 @@ namespace LandeskUMP.Business
                 umpItems.TryGetValue(b.Id, out temp);
                 b.Cases = temp;
             }
+            #endregion
 
             // Calculate UMP Score
             var umpResults =
                 from u in vsoBugs
                 where (u.Cases.Count > 0)
                 select new Models.UmpScoreResult(u, GetUmpScore(u));
-                
+
             return umpResults.OrderByDescending(ump => ump.TotalUmp);
         }
 
@@ -104,14 +92,10 @@ namespace LandeskUMP.Business
         /// <returns>UMP score as int</returns>
         public int GetUmpScore(Models.VSOnline.WorkItem workItem)
         {
-            //////////////
             // Constants:
-            //////////////
             const int k = 5000; // max for each UMP score
 
-            //////////////
             // Adjustors:
-            //////////////
             const double pointsModifier = 15000.0; // divided into total entitlement points for UMP 2
 
             // First half of UMP score - using only information from the defect
@@ -139,13 +123,6 @@ namespace LandeskUMP.Business
             { rate1 = (.01 * Math.Sqrt(workItem.Cases.Count)) + (.005 / workItem.Cases.Count); }
             catch (DivideByZeroException) { rate1 = .001; } // if there are zero cases, the world of math gets angry, so we set it to the lowest possible value
 
-            // Now the time since defect opened
-            // This one keeps increasing UMP after the defect is done
-            //int time = (DateTime.Now - (CreatedDate ?? DateTime.Now)).Days;
-
-            // this one stops increasing UMP once the defect is done (I hope/think)
-            // psydo code: time = donedate (or now) - (createddate)
-
             // How long has the bug been open
             int time = ((DateTime.Now) - (workItem.CreatedDate)).Days;
 
@@ -166,8 +143,8 @@ namespace LandeskUMP.Business
                 from c in workItem.Cases
                 select new
                 {
-                    Severity = c.Severity,
-                    Score = 5 - Int32.Parse(Regex.Match(c.Severity, @"\d+").Value)
+                    Severity = c.Severity__c,
+                    Score = 5 - Int32.Parse(Regex.Match(c.Severity__c, @"\d+").Value)
                 };
 
             // this gets the average of the severitys ( sev 1 = 4 ... sev 4 = 1) with the highest severity thrown out
@@ -181,7 +158,7 @@ namespace LandeskUMP.Business
             rate2 = .075 + ((severityScore - 1) / 30);
 
             // This half of the score increases over entitlements points instead of time so:
-            double totalPoints = workItem.Cases.Sum(p => (p.Account.TotalEntitlementPoints ?? 0)) / pointsModifier;
+            double totalPoints = workItem.Cases.Sum(c => (c.Account.Total_Entitlement_Points__c ?? 0)) / pointsModifier;
 
             double ump2 = k / (1 + (((k - start2) / start2) * Math.Pow(Math.E, (-rate2 * totalPoints))));
 

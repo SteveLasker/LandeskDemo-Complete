@@ -210,42 +210,33 @@ namespace LandeskUMP.Models.Salesforce
         public string DandbCompanyId { get; set; }
 
         [Display(Name = "Customer Priority")]
-        [JsonProperty("CustomerPriority__c")]
-        public string CustomerPriority { get; set; }
+        public string CustomerPriority__c { get; set; }
 
         [Display(Name = "SLA")]
-        [JsonProperty("SLA__c")]
-        public string SLA { get; set; }
+        public string SLA__c { get; set; }
 
         [Display(Name = "Active")]
-        [JsonProperty("Active__c")]
-        public string Active { get; set; }
+        public string Active__c { get; set; }
 
         [Display(Name = "Number of Locations")]
-        [JsonProperty("NumberofLocations__c")]
-        public double? NumberofLocations { get; set; }
+        public double? NumberofLocations__c { get; set; }
 
         [Display(Name = "Upsell Opportunity")]
-        [JsonProperty("UpsellOpportunity__c")]
-        public string UpsellOpportunity { get; set; }
+        public string UpsellOpportunity__c { get; set; }
 
         [Display(Name = "SLA Serial Number")]
         [StringLength(10)]
-        [JsonProperty("SLASerialNumber__c")]
-        public string SLASerialNumber { get; set; }
+        public string SLASerialNumber__c { get; set; }
 
         [Display(Name = "SLA Expiration Date")]
-        [JsonProperty("SLAExpirationDate__c")]
-        public DateTimeOffset? SLAExpirationDate { get; set; }
+        public DateTimeOffset? SLAExpirationDate__c { get; set; }
 
         [Display(Name = "SAP_Customer_Number")]
         [StringLength(10)]
-        [JsonProperty("SAP_Customer_Number__c")]
-        public string SAPCustomerNumber { get; set; }
+        public string SAP_Customer_Number__c { get; set; }
 
         [Display(Name = "Total_Entitlement_Points")]
-        [JsonProperty("Total_Entitlement_Points__c ")]
-        public double? TotalEntitlementPoints{ get; set; }
+        public double? Total_Entitlement_Points__c { get; set; }
 
     }
 }
