@@ -116,39 +116,33 @@ namespace LandeskUMP.Models.Salesforce
 
         [Display(Name = "Engineering Req Number")]
         [StringLength(12)]
-        [JsonProperty("EngineeringReqNumber__c")]
-        public string EngineeringReqNumber { get; set; }
+        public string EngineeringReqNumber__c { get; set; }
 
         [Display(Name = "SLA Violation")]
-        [JsonProperty("SLAViolation__c")]
-        public string SLAViolation { get; set; }
-
-        [Display(Name = "Product")]
-        [JsonProperty("Product__c")]
-        public string Product { get; set; }
+        public string SLAViolation__c { get; set; }
 
         [Display(Name = "Potential Liability")]
-        [JsonProperty("PotentialLiability__c")]
-        public string PotentialLiability { get; set; }
+        public string PotentialLiability__c { get; set; }
 
         [Display(Name = "Severity")]
-        [JsonProperty("Severity__c")]
-        public string Severity { get; set; }
+        public string Severity__c { get; set; }
 
-        [Display(Name = "VSOnline Id")]
-        [JsonProperty("VSOnlineId__c")]
-        public double? VSOnlineId { get; set; }
-
-        [Display(Name = "Product_Line")]
-        [StringLength(50)]
-        [JsonProperty("Product_Line__c")]
-        public string Product_Line { get; set; }
+        [Display(Name = "ClearQuestID")]
+        public double? ClearQuestID__c { get; set; }
 
         [Display(Name = "Category")]
         [StringLength(30)]
-        [JsonProperty("Category__c")]
-        public string Category { get; set; }
+        public string Category__c { get; set; }
 
+        [Display(Name = "VSOnlineId")]
+        [JsonProperty("VSOnlineId__c")]
+        public double? VSOnlineId { get; set; }
+
+        [Display(Name = "Product Line")]
+        public string Product_Line__c { get; set; }
+
+        [Display(Name = "Product")]
+        public string Product__c { get; set; }
         public Account Account { get; set; }
 
     }

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace LandeskUMP.Models
 {
@@ -20,7 +18,7 @@ namespace LandeskUMP.Models
             this.CreatedDate = workItem.CreatedDate;
             this.TotalUmp = umpScore;
             this.Cases = workItem.Cases;
-            this.State= workItem.State;
+            this.State = workItem.State;
         }
         public int Id { get; set; }
         public string Title { get; set; }
