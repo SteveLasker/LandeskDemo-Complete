@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 #endregion
+
 namespace LandeskUMP.Business
 {
     /// <summary>
@@ -40,11 +41,15 @@ namespace LandeskUMP.Business
                                 + "    FROM Case "
                                 + " WHERE Status <>'Closed' ";
 
-            ForceClient forceClient = await SalesforceService.GetUserNamePasswordForceClientAsync();
+            List<Models.Salesforce.Case> sfCases = new List<Models.Salesforce.Case>();
 
-            //TODO: Move results to next line
-            var result = await forceClient.QueryAsync<Models.Salesforce.Case>(sfQuery);
-            List<Models.Salesforce.Case> sfCases = result.records;
+            sfCases = await SalesforceService.MakeAuthenticatedWebAPIClientRequestAsync(
+                async (client) =>
+                {
+                    // Salesforce Query of Cases
+                    var result = await client.QueryAsync<Models.Salesforce.Case>(sfQuery);
+                    return result.records;
+                });
 
             // Connect cases to defects:
             // For each WorkItem, get a collection of Salesforce Cases
